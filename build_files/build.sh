@@ -104,12 +104,8 @@ sed -i 's|^OnUnitInactiveSec=.*|OnUnitInactiveSec=7d\nPersistent=true|' /usr/lib
 sed -i 's|#AutomaticUpdatePolicy.*|AutomaticUpdatePolicy=stage|' /etc/rpm-ostreed.conf
 
 systemctl enable --global plasma-polkit-agent.service
-systemctl enable --global swayidle.service
-systemctl enable --global udiskie.service
 systemctl enable --global xwayland-satellite.service
 systemctl preset --global plasma-polkit-agent
-systemctl preset --global swayidle
-systemctl preset --global udiskie
 systemctl preset --global xwayland-satellite
 
 mkdir -p "/usr/share/fonts/Maple Mono"
