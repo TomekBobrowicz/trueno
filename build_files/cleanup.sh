@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+set -ouex pipefail
+
 
 HOME_URL="https://github.com/TomekBobrowicz/trueno"
 echo "fedora" | tee "/etc/hostname"
