@@ -32,13 +32,13 @@ dnf -y copr enable solopasha/hyprland
 dnf -y copr disable solopasha/hyprland
 dnf -y --enablerepo copr:copr.fedorainfracloud.org:solopasha:hyprland install hyprland hyprpaper hypridle 
 
-dnf -y copr enable avengemedia/dms
-dnf -y copr disable avengemedia/dms
+dnf -y copr enable avengemedia/dms-git
+dnf -y copr disable avengemedia/dms-git
 dnf -y --enablerepo copr:copr.fedorainfracloud.org:avengemedia/dms install dms
 
 dnf -y copr enable avengemedia/danklinux
 dnf -y copr disable avengemedia/danklinux
-dnf -y --enablerepo copr:copr.fedorainfracloud.org:avengemedia/danklinux install quickshell-git cliphist hyprpicker material-symbols-fonts matugen
+dnf -y --enablerepo copr:copr.fedorainfracloud.org:avengemedia/danklinux install quickshell-git cliphist hyprpicker material-symbols-fonts matugen dgop
 
 dnf -y copr enable heus-sueh/packages
 dnf -y copr disable heus-sueh/packages
@@ -133,5 +133,3 @@ curl -L "https://github.com/tonsky/FiraCode/releases/latest/download/FiraCode-Re
 mkdir ~/.config/quickshell && git clone https://github.com/AvengeMedia/DankMaterialShell.git ~/.config/quickshell/dms
 
 sh -c "curl -L https://github.com/AvengeMedia/danklinux/releases/latest/download/dms-$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').gz | gunzip | tee /usr/local/bin/dms > /dev/null && chmod +x /usr/local/bin/dms"
-
-sh -c "curl -L https://github.com/AvengeMedia/dgop/releases/latest/download/dgop-linux-$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').gz | gunzip | tee /usr/local/bin/dgop > /dev/null && chmod +x /usr/local/bin/dgop"
