@@ -32,9 +32,9 @@ dnf -y copr enable solopasha/hyprland
 dnf -y copr disable solopasha/hyprland
 dnf -y --enablerepo copr:copr.fedorainfracloud.org:solopasha:hyprland install hyprland hyprpaper hypridle 
 
-dnf -y copr enable avengemedia/dms
-dnf -y copr disable avengemedia/dms
-dnf -y --enablerepo copr:copr.fedorainfracloud.org:avengemedia:dms install dms
+dnf -y copr enable avengemedia/dms-git
+dnf -y copr disable avengemedia/dms-git
+dnf -y --enablerepo copr:copr.fedorainfracloud.org:avengemedia:dms-git install dms
 
 dnf -y copr enable avengemedia/danklinux
 dnf -y copr disable avengemedia/danklinux
