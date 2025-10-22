@@ -30,11 +30,11 @@ dnf -y copr disable errornointernet/quickshell
 
 dnf -y copr enable solopasha/hyprland
 dnf -y copr disable solopasha/hyprland
-dnf -y --enablerepo copr:copr.fedorainfracloud.org:solopasha:hyprland install hyprland hyprpaper hypridle 
+dnf -y --enablerepo copr:copr.fedorainfracloud.org:solopasha:hyprland install hyprland hyprpaper hypridle hyprpicker
 
 dnf -y copr enable avengemedia/danklinux
 dnf -y copr disable avengemedia/danklinux
-dnf -y --enablerepo copr:copr.fedorainfracloud.org:avengemedia:danklinux install quickshell-git cliphist hyprpicker material-symbols-fonts matugen dgop
+dnf -y --enablerepo copr:copr.fedorainfracloud.org:avengemedia:danklinux install quickshell-git cliphist material-symbols-fonts matugen dgop
 
 dnf -y copr enable avengemedia/dms-git
 dnf -y copr disable avengemedia/dms-git
