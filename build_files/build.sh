@@ -12,6 +12,63 @@ set -ouex pipefail
 # this installs a package from fedora repos
 dnf5 install -y tmux 
 
+systemctl enable systemd-timesyncd
+systemctl enable systemd-resolved.service
+
+dnf -y copr enable yalter/niri
+dnf -y copr disable yalter/niri
+dnf -y --enablerepo copr:copr.fedorainfracloud.org:yalter:niri install niri
+rm -rf /usr/share/doc/niri
+
+dnf -y copr enable scottames/ghostty
+dnf -y copr disable scottames/ghostty
+dnf -y --enablerepo copr:copr.fedorainfracloud.org:scottames:ghostty install ghostty
+
+dnf -y copr enable errornointernet/quickshell
+dnf -y copr disable errornointernet/quickshell
+#dnf -y --enablerepo copr:copr.fedorainfracloud.org:errornointernet:quickshell install quickshell
+
+dnf -y copr enable solopasha/hyprland
+dnf -y copr disable solopasha/hyprland
+dnf -y --enablerepo copr:copr.fedorainfracloud.org:solopasha:hyprland install hyprland hyprpaper hypridle 
+
+dnf -y copr enable avengemedia/dms
+dnf -y copr disable avengemedia/dms
+dnf -y --enablerepo copr:copr.fedorainfracloud.org:avengemedia/dms install dms
+
+dnf -y copr enable avengemedia/danklinux
+dnf -y copr disable avengemedia/danklinux
+dnf -y --enablerepo copr:copr.fedorainfracloud.org:avengemedia/danklinux install quickshell-git cliphist hyprpicker material-symbols-fonts matugen
+
+dnf -y copr enable heus-sueh/packages
+dnf -y copr disable heus-sueh/packages
+
+dnf -y copr enable brycensranch/gpu-screen-recorder-git
+dnf -y --enablerepo copr:copr.fedorainfracloud.org:brycensranch:gpu-screen-recorder-git install gpu-screen-recorder-ui
+dnf -y copr disable brycensranch/gpu-screen-recorder-git
+
+dnf -y install \
+    uxplay \
+    udiskie \
+    xdg-desktop-portal-gnome \
+    swaybg \
+    swayidle \
+    swaylock \
+    brightnessctl \
+    gnome-keyring \
+    nautilus \
+    tuigreet \
+    udiskie \
+    wlsunset \
+    xdg-user-dirs \
+    xwayland-satellite \
+    cava \
+    fuzzel \
+    qt6ct \
+    wl-clipboard \
+    qt6-qtmultimedia 
+
+
 # Use a COPR Example:
 #
 # dnf5 -y copr enable ublue-os/staging
@@ -22,3 +79,59 @@ dnf5 install -y tmux
 #### Example for enabling a System Unit File
 
 systemctl enable podman.socket
+
+add_wants_niri() {
+    sed -i "s/\[Unit\]/\[Unit\]\nWants=$1/" "/usr/lib/systemd/user/niri.service"
+}
+add_wants_niri dankshell.service
+add_wants_niri plasma-polkit-agent.service
+add_wants_niri swayidle.service
+add_wants_niri udiskie.service
+add_wants_niri xwayland-satellite.service
+cat /usr/lib/systemd/user/niri.service
+
+dnf install -y --setopt=install_weak_deps=False \
+    polkit-kde
+
+sed -i "s/After=.*/After=graphical-session.target/" /usr/lib/systemd/user/plasma-polkit-agent.service
+
+
+dnf -y install --enablerepo=fedora-multimedia \
+    ffmpeg libavcodec @multimedia gstreamer1-plugins-{bad-free,bad-free-libs,good,base} lame{,-libs} libjxl ffmpegthumbnailer
+
+
+sed -i 's|^ExecStart=.*|ExecStart=/usr/bin/bootc update --quiet|' /usr/lib/systemd/system/bootc-fetch-apply-updates.service
+sed -i 's|^OnUnitInactiveSec=.*|OnUnitInactiveSec=7d\nPersistent=true|' /usr/lib/systemd/system/bootc-fetch-apply-updates.timer
+sed -i 's|#AutomaticUpdatePolicy.*|AutomaticUpdatePolicy=stage|' /etc/rpm-ostreed.conf
+
+systemctl enable --global dankshell.service
+systemctl enable --global plasma-polkit-agent.service
+systemctl enable --global swayidle.service
+systemctl enable --global udiskie.service
+systemctl enable --global xwayland-satellite.service
+systemctl preset --global dankmaterial-shell
+systemctl preset --global plasma-polkit-agent
+systemctl preset --global swayidle
+systemctl preset --global udiskie
+systemctl preset --global xwayland-satellite
+
+mkdir -p "/usr/share/fonts/Maple Mono"
+
+MAPLE_TMPDIR="$(mktemp -d)"
+trap 'rm -rf "${MAPLE_TMPDIR}"' EXIT
+
+LATEST_RELEASE_FONT="$(curl "https://api.github.com/repos/subframe7536/maple-font/releases/latest" | jq '.assets[] | select(.name == "MapleMono-Variable.zip") | .browser_download_url' -rc)"
+curl -fSsLo "${MAPLE_TMPDIR}/maple.zip" "${LATEST_RELEASE_FONT}"
+unzip "${MAPLE_TMPDIR}/maple.zip" -d "/usr/share/fonts/Maple Mono"
+
+curl -L "https://github.com/google/material-design-icons/raw/master/variablefont/MaterialSymbolsRounded%5BFILL%2CGRAD%2Copsz%2Cwght%5D.ttf" -o /usr/share/fonts/MaterialSymbolsRounded.ttf
+
+curl -L "https://github.com/rsms/inter/raw/refs/tags/v4.1/docs/font-files/InterVariable.ttf" -o /usr/share/fonts/InterVariable.ttf
+
+curl -L "https://github.com/tonsky/FiraCode/releases/latest/download/FiraCode-Regular.ttf" -o /usr/share/fonts/FiraCode-Regular.ttf
+
+mkdir ~/.config/quickshell && git clone https://github.com/AvengeMedia/DankMaterialShell.git ~/.config/quickshell/dms
+
+sh -c "curl -L https://github.com/AvengeMedia/danklinux/releases/latest/download/dms-$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').gz | gunzip | tee /usr/local/bin/dms > /dev/null && chmod +x /usr/local/bin/dms"
+
+sh -c "curl -L https://github.com/AvengeMedia/dgop/releases/latest/download/dgop-linux-$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').gz | gunzip | tee /usr/local/bin/dgop > /dev/null && chmod +x /usr/local/bin/dgop"
