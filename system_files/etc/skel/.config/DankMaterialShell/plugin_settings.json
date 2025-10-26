@@ -1,0 +1,11 @@
+{
+  "niriWindows": {
+    "enabled": true
+  },
+  "wallpaperBing": {
+    "enabled": true
+  },
+  "wallpaperDiscovery": {
+    "enabled": false
+  }
+}

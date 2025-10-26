@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -ouex pipefail
+cp -avf /ctx/files/. /
 
 ### Install packages
 
@@ -9,11 +10,15 @@ set -ouex pipefail
 # List of rpmfusion packages can be found here:
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/39/x86_64/repoview/index.html&protocol=https&redirect=1
 
-# this installs a package from fedora repos
-dnf5 install -y tmux 
+# VSCode
+rpm --import https://packages.microsoft.com/keys/microsoft.asc
+echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\nautorefresh=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | tee /etc/yum.repos.d/vscode.repo
+
 
 systemctl enable systemd-timesyncd
 systemctl enable systemd-resolved.service
+
+dnf copr -y enable alternateved/eza 
 
 dnf -y copr enable yalter/niri
 dnf -y copr disable yalter/niri
@@ -57,8 +62,6 @@ dnf -y install \
     brightnessctl \
     gnome-keyring \
     nautilus \
-    tuigreet \
-    udiskie \
     wlsunset \
     xdg-user-dirs \
     xwayland-satellite \
@@ -66,7 +69,16 @@ dnf -y install \
     fuzzel \
     qt6ct \
     wl-clipboard \
-    qt6-qtmultimedia 
+    qt6-qtmultimedia \
+    eza \
+    bat \
+    btop \
+    zoxide \
+    google-noto-fonts-all \
+    jetbrains-mono-fonts-all \
+    adw-gtk3-theme \
+
+    
 
 
 # Use a COPR Example:
@@ -116,3 +128,14 @@ trap 'rm -rf "${MAPLE_TMPDIR}"' EXIT
 LATEST_RELEASE_FONT="$(curl "https://api.github.com/repos/subframe7536/maple-font/releases/latest" | jq '.assets[] | select(.name == "MapleMono-Variable.zip") | .browser_download_url' -rc)"
 curl -fSsLo "${MAPLE_TMPDIR}/maple.zip" "${LATEST_RELEASE_FONT}"
 unzip "${MAPLE_TMPDIR}/maple.zip" -d "/usr/share/fonts/Maple Mono"
+
+## DMS
+curl -L "https://github.com/google/material-design-icons/raw/master/variablefont/MaterialSymbolsRounded%5BFILL%2CGRAD%2Copsz%2Cwght%5D.ttf" -o /usr/share/fonts/MaterialSymbolsRounded.ttf
+curl -L "https://github.com/rsms/inter/raw/refs/tags/v4.1/docs/font-files/InterVariable.ttf" -o /usr/share/fonts/InterVariable.ttf
+curl -L "https://github.com/tonsky/FiraCode/releases/latest/download/FiraCode-Regular.ttf" -o /usr/share/fonts/FiraCode-Regular.ttf
+
+install -d /etc/niri/
+cp -f /etc/skel/.config/niri/config.kdl /etc/niri/config.kdl
+file /etc/niri/config.kdl | grep -F -e "empty" -v
+stat /etc/niri/config.kdl
+
