@@ -79,7 +79,6 @@ dnf -y install \
     jetbrains-mono-fonts-all \
     adw-gtk3-theme \
     google-chrome-stable \
-    code \
     discord \
     nwg-look    
 
