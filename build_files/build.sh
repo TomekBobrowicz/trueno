@@ -53,6 +53,7 @@ dnf -y --enablerepo copr:copr.fedorainfracloud.org:brycensranch:gpu-screen-recor
 dnf -y copr disable brycensranch/gpu-screen-recorder-git
 
 dnf config-manager setopt google-chrome.enabled=1
+mkdir -p /var/opt/google
 
 dnf -y install \
     uxplay \
