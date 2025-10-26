@@ -11,6 +11,14 @@ If you have questions about this template after following the instructions, try 
 
 # How to Use
 
+
+rebase from existing ublue install
+
+```bash 
+sudo bootc switch ghcr.io/tomekbobrowicz/trueno:latest
+```
+---------------------------------------------------------------------------------------------
+
 To get started on your first bootc image, simply read and follow the steps in the next few headings.
 If you prefer instructions in video form, TesterTech created an excellent tutorial, embedded below.
 
