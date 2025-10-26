@@ -54,8 +54,7 @@ dnf -y --enablerepo copr:copr.fedorainfracloud.org:brycensranch:gpu-screen-recor
 dnf -y copr disable brycensranch/gpu-screen-recorder-git
 
 dnf -y install \
-    uxplay \#dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
-
+    uxplay \
     udiskie \
     xdg-desktop-portal-gnome \
     swaybg \
@@ -80,6 +79,7 @@ dnf -y install \
     jetbrains-mono-fonts-all \
     adw-gtk3-theme \
     google-chrome-stable \
+    code \
     discord    
 
 
