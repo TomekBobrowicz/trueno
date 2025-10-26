@@ -52,6 +52,8 @@ dnf -y copr enable brycensranch/gpu-screen-recorder-git
 dnf -y --enablerepo copr:copr.fedorainfracloud.org:brycensranch:gpu-screen-recorder-git install gpu-screen-recorder-ui
 dnf -y copr disable brycensranch/gpu-screen-recorder-git
 
+dnf config-manager --enable google-chrome
+
 dnf -y install \
     uxplay \
     udiskie \
