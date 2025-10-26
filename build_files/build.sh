@@ -80,7 +80,8 @@ dnf -y install \
     adw-gtk3-theme \
     google-chrome-stable \
     code \
-    discord    
+    discord \
+    nwg-look    
 
 
 # Use a COPR Example:
