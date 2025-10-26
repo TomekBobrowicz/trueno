@@ -35,14 +35,14 @@ input {
 // Find more information on the wiki:
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Outputs
 // Remember to uncomment the node by removing "/-"!
-output "DP-3" {
+output "eDP-1" {
     mode "1920x1080@60"
     scale 1.0
     position x=0 y=0
     focus-at-startup
     variable-refresh-rate
  }
-output "DP-2" {
+output "HDMI-A-1" {
     // off
     mode "1920x1080@60"
     scale 1.0

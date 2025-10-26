@@ -14,6 +14,7 @@ cp -avf /ctx/files/. /
 rpm --import https://packages.microsoft.com/keys/microsoft.asc
 echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\nautorefresh=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | tee /etc/yum.repos.d/vscode.repo
 
+dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
 systemctl enable systemd-timesyncd
 systemctl enable systemd-resolved.service
@@ -53,7 +54,8 @@ dnf -y --enablerepo copr:copr.fedorainfracloud.org:brycensranch:gpu-screen-recor
 dnf -y copr disable brycensranch/gpu-screen-recorder-git
 
 dnf -y install \
-    uxplay \
+    uxplay \#dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+
     udiskie \
     xdg-desktop-portal-gnome \
     swaybg \
@@ -77,8 +79,8 @@ dnf -y install \
     google-noto-fonts-all \
     jetbrains-mono-fonts-all \
     adw-gtk3-theme \
-
-    
+    google-chrome-stable \
+    discord    
 
 
 # Use a COPR Example:
@@ -138,4 +140,9 @@ install -d /etc/niri/
 cp -f /etc/skel/.config/niri/config.kdl /etc/niri/config.kdl
 file /etc/niri/config.kdl | grep -F -e "empty" -v
 stat /etc/niri/config.kdl
+
+install -d /etc/ghostty/
+cp -f /etc/skel/.config/ghostty/config /etc/ghostty/config
+file /etc/ghostty/config | grep -F -e "empty" -v
+stat /etc/ghostty/config
 
