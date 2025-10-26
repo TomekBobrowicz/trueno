@@ -36,8 +36,7 @@ dnf -y copr disable errornointernet/quickshell
 
 dnf -y copr enable solopasha/hyprland
 dnf -y copr disable solopasha/hyprland
-dnf -y --enablerepo copr:copr.fedorainfracloud.org:solopasha:hyprland install hyprland hyprpaper hypridle hyprpicker
-
+dnf -y --enablerepo copr:copr.fedorainfracloud.org:solopasha:hyprland install hyprland hyprpaper hypridle hyprpicker nwg-look
 dnf -y copr enable avengemedia/danklinux
 dnf -y copr disable avengemedia/danklinux
 dnf -y --enablerepo copr:copr.fedorainfracloud.org:avengemedia:danklinux install quickshell-git cliphist material-symbols-fonts matugen dgop
@@ -79,8 +78,8 @@ dnf -y install \
     jetbrains-mono-fonts-all \
     adw-gtk3-theme \
     google-chrome-stable \
-    discord \
-    nwg-look    
+    discord 
+       
 
 
 # Use a COPR Example:
@@ -121,6 +120,8 @@ systemctl enable --global plasma-polkit-agent.service
 systemctl enable --global xwayland-satellite.service
 systemctl preset --global plasma-polkit-agent
 systemctl preset --global xwayland-satellite
+
+dnf -y remove xwaylandvideobridge
 
 mkdir -p "/usr/share/fonts/Maple Mono"
 
