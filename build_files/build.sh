@@ -110,6 +110,7 @@ dnf install -y --setopt=install_weak_deps=False \
 
 sed -i "s/After=.*/After=graphical-session.target/" /usr/lib/systemd/user/plasma-polkit-agent.service
 
+
 sed -i 's|^ExecStart=.*|ExecStart=/usr/bin/bootc update --quiet|' /usr/lib/systemd/system/bootc-fetch-apply-updates.service
 sed -i 's|^OnUnitInactiveSec=.*|OnUnitInactiveSec=7d\nPersistent=true|' /usr/lib/systemd/system/bootc-fetch-apply-updates.timer
 sed -i 's|#AutomaticUpdatePolicy.*|AutomaticUpdatePolicy=stage|' /etc/rpm-ostreed.conf
@@ -120,6 +121,7 @@ systemctl preset --global plasma-polkit-agent
 systemctl preset --global xwayland-satellite
 
 dnf -y remove xwaylandvideobridge
+dnf -y remove waybar
 
 mkdir -p "/usr/share/fonts/Maple Mono"
 
