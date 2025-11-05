@@ -36,7 +36,7 @@ dnf -y copr disable errornointernet/quickshell
 
 dnf -y copr enable solopasha/hyprland
 dnf -y copr disable solopasha/hyprland
-dnf -y --enablerepo copr:copr.fedorainfracloud.org:solopasha:hyprland install hyprland hyprpaper hypridle hyprpicker nwg-look
+dnf -y --enablerepo copr:copr.fedorainfracloud.org:solopasha:hyprland install nwg-look
 dnf -y copr enable avengemedia/danklinux
 dnf -y copr disable avengemedia/danklinux
 dnf -y --enablerepo copr:copr.fedorainfracloud.org:avengemedia:danklinux install quickshell-git cliphist material-symbols-fonts matugen dgop
@@ -77,65 +77,8 @@ dnf -y install \
     rar \
     discord 
 
-# bazzite stuff
-dnf5 -y copr enable ycollet/audinux
-dnf5 -y copr enable bazzite-org/bazzite  
-dnf5 -y copr enable bazzite-org/bazzite-multilib  
-dnf5 -y copr enable bazzite-org/LatencyFleX  
-dnf5 -y copr enable bazzite-org/obs-vkcapture  
-dnf5 -y copr enable bazzite-org/webapp-manager
-
-dnf5 -y install \
-     steam \
-     mangohud \
-     gamescope \
-     gamescope-libs \
-     lutris \
-     vulkan-tools \
-     gamescope-shaders \
-     python3-pip \
-     python3-icoextract \
-     ds-inhibit \
-     lsb_release \
-     cpulimit \
-
-## bazzite repos  
-dnf5 -y --enablerepo copr:copr.fedorainfracloud.org:bazzite-org:bazzite \
-    install --skip-broken vkBasalt.x86_64 VK_hdr_layer sunshine ryzenadj
-
-dnf5 -y --enablerepo copr:copr.fedorainfracloud.org:bazzite-org:bazzite-multilib install \
-    vkBasalt.i686
-
-## LatencyFleX 
-dnf5 -y --enablerepo copr:copr.fedorainfracloud.org:bazzite-org:LatencyFleX install \
-    latencyflex-vulkan-layer --skip-unavailable
-
-## obs-vkcapture 
-dnf5 -y --enablerepo copr:copr.fedorainfracloud.org:bazzite-org:obs-vkcapture install \
-    libobs_vkcapture.x86_64 \
-    libobs_glcapture.x86_64 \
-    libobs_vkcapture.i686 \
-    libobs_glcapture.i686
-
-## webapp-manager
-dnf5 -y --enablerepo copr:copr.fedorainfracloud.org:bazzite-org:webapp-manager install \
-    webapp-manager
-
-dnf5 -y install \
-     xone-kmod \
-     i2c-tools \
-     libcec \
-     umu-launcher
-
-dnf5 -y copr disable bazzite-org/bazzite
-dnf5 -y copr disable bazzite-org/bazzite-multilib
-dnf5 -y copr disable bazzite-org/LatencyFleX
-dnf5 -y copr disable bazzite-org/obs-vkcapture
-dnf5 -y copr disable bazzite-org/webapp-manager
-
-
 # main packages ig lol
-dnf5 -y remove alacritty xwaylandvideobridge waybar mako 
+dnf5 -y remove alacritty kitty xwaylandvideobridge waybar mako 
 
 # fonts
 dnf5 -y install \
