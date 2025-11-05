@@ -62,18 +62,11 @@ git clone https://github.com/AvengeMedia/DankMaterialShell.git /etc/xdg/quickshe
 dnf -y install \
     uxplay \
     udiskie \
-    xdg-desktop-portal-gnome \
-    brightnessctl \
-    gnome-keyring \
     nautilus \
     wlsunset \
-    xdg-user-dirs \
-    xwayland-satellite \
     cava \
-    fuzzel \
     qt6ct \
     wl-clipboard \
-    qt6-qtmultimedia \
     eza \
     bat \
     btop \
@@ -81,11 +74,7 @@ dnf -y install \
     google-noto-fonts-all \
     jetbrains-mono-fonts-all \
     adw-gtk3-theme \
-    google-chrome-stable \
-    greetd \
-    greetd-selinux \
     rar \
-    unzip \
     discord 
 
 # bazzite stuff
