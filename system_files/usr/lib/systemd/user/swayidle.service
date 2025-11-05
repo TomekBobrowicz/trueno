@@ -4,8 +4,7 @@ PartOf=graphical-session.target
 After=graphical-session.target
 
 [Service]
-ExecStart=/usr/bin/swayidle -w timeout 601 'niri msg action power-off-monitors' timeout 600 'qs -c /usr/share/bizzite/noctalia-shell ipc call lockScreen toggle' before-sleep 'qs -c /usr/share/bizzite/noctalia-shell ipc call lockScreen toggle'
-Restart=on-failure
+ExecStart=/usr/libexec/zidle
 RestartSec=1
 
 [Install]
