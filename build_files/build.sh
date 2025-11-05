@@ -43,25 +43,26 @@ dnf -y --enablerepo copr:copr.fedorainfracloud.org:avengemedia:danklinux install
 
 dnf -y copr enable avengemedia/dms-git
 dnf -y copr disable avengemedia/dms-git
-dnf -y --enablerepo copr:copr.fedorainfracloud.org:avengemedia:dms-git install dms
+dnf -y \
+    --enablerepo copr:copr.fedorainfracloud.org:avengemedia:dms-git \
+    --enablerepo copr:copr.fedorainfracloud.org:avengemedia:danklinux \
+    install --setopt=install_weak_deps=False \
+    dms \
+    dms-cli \
+    dms-greeter
 
-dnf -y copr enable heus-sueh/packages
-dnf -y copr disable heus-sueh/packages
+mkdir -p /etc/xdg/quickshell
+if [ -d /etc/xdg/quickshell/dms ]; then
+    rm -rf /etc/xdg/quickshell/dms
+fi
 
-dnf -y copr enable brycensranch/gpu-screen-recorder-git
-dnf -y --enablerepo copr:copr.fedorainfracloud.org:brycensranch:gpu-screen-recorder-git install gpu-screen-recorder-ui
-dnf -y copr disable brycensranch/gpu-screen-recorder-git
+git clone https://github.com/AvengeMedia/DankMaterialShell.git /etc/xdg/quickshell/dms
 
-dnf config-manager setopt google-chrome.enabled=1
-mkdir -p /var/opt/google
 
 dnf -y install \
     uxplay \
     udiskie \
     xdg-desktop-portal-gnome \
-    swaybg \
-    swayidle \
-    swaylock \
     brightnessctl \
     gnome-keyring \
     nautilus \
@@ -81,26 +82,86 @@ dnf -y install \
     jetbrains-mono-fonts-all \
     adw-gtk3-theme \
     google-chrome-stable \
+    greetd \
+    greetd-selinux \
+    rar \
+    unzip \
     discord 
-       
+
+# bazzite stuff
+dnf5 -y copr enable ycollet/audinux
+dnf5 -y copr enable bazzite-org/bazzite  
+dnf5 -y copr enable bazzite-org/bazzite-multilib  
+dnf5 -y copr enable bazzite-org/LatencyFleX  
+dnf5 -y copr enable bazzite-org/obs-vkcapture  
+dnf5 -y copr enable bazzite-org/webapp-manager
+
+dnf5 -y install \
+     steam \
+     mangohud \
+     gamescope \
+     gamescope-libs \
+     lutris \
+     vulkan-tools \
+     gamescope-shaders \
+     python3-pip \
+     python3-icoextract \
+     ds-inhibit \
+     lsb_release \
+     cpulimit \
+
+## bazzite repos  
+dnf5 -y --enablerepo copr:copr.fedorainfracloud.org:bazzite-org:bazzite \
+    install --skip-broken vkBasalt.x86_64 VK_hdr_layer sunshine ryzenadj
+
+dnf5 -y --enablerepo copr:copr.fedorainfracloud.org:bazzite-org:bazzite-multilib install \
+    vkBasalt.i686
+
+## LatencyFleX 
+dnf5 -y --enablerepo copr:copr.fedorainfracloud.org:bazzite-org:LatencyFleX install \
+    latencyflex-vulkan-layer --skip-unavailable
+
+## obs-vkcapture 
+dnf5 -y --enablerepo copr:copr.fedorainfracloud.org:bazzite-org:obs-vkcapture install \
+    libobs_vkcapture.x86_64 \
+    libobs_glcapture.x86_64 \
+    libobs_vkcapture.i686 \
+    libobs_glcapture.i686
+
+## webapp-manager
+dnf5 -y --enablerepo copr:copr.fedorainfracloud.org:bazzite-org:webapp-manager install \
+    webapp-manager
+
+dnf5 -y install \
+     xone-kmod \
+     i2c-tools \
+     libcec \
+     umu-launcher
+
+dnf5 -y copr disable bazzite-org/bazzite
+dnf5 -y copr disable bazzite-org/bazzite-multilib
+dnf5 -y copr disable bazzite-org/LatencyFleX
+dnf5 -y copr disable bazzite-org/obs-vkcapture
+dnf5 -y copr disable bazzite-org/webapp-manager
 
 
-# Use a COPR Example:
-#
-# dnf5 -y copr enable ublue-os/staging
-# dnf5 -y install package
-# Disable COPRs so they don't end up enabled on the final image:
-# dnf5 -y copr disable ublue-os/staging
+# main packages ig lol
+dnf5 -y remove alacritty xwaylandvideobridge waybar mako 
 
-#### Example for enabling a System Unit File
+# fonts
+dnf5 -y install \
+    default-fonts-core-emoji \
+    google-noto-color-emoji-fonts \
+    google-noto-emoji-fonts \
+    glibc-all-langpacks \
+    default-fonts \
+    twitter-twemoji-fonts
 
-systemctl enable podman.socket
-
+### Configure services
 add_wants_niri() {
     sed -i "s/\[Unit\]/\[Unit\]\nWants=$1/" "/usr/lib/systemd/user/niri.service"
 }
 add_wants_niri plasma-polkit-agent.service
-add_wants_niri swayidle.service
 add_wants_niri udiskie.service
 add_wants_niri xwayland-satellite.service
 cat /usr/lib/systemd/user/niri.service
@@ -115,13 +176,13 @@ sed -i 's|^ExecStart=.*|ExecStart=/usr/bin/bootc update --quiet|' /usr/lib/syste
 sed -i 's|^OnUnitInactiveSec=.*|OnUnitInactiveSec=7d\nPersistent=true|' /usr/lib/systemd/system/bootc-fetch-apply-updates.timer
 sed -i 's|#AutomaticUpdatePolicy.*|AutomaticUpdatePolicy=stage|' /etc/rpm-ostreed.conf
 
+systemctl enable podman.socket
 systemctl enable --global plasma-polkit-agent.service
+systemctl enable --global dms.service
 systemctl enable --global xwayland-satellite.service
-systemctl preset --global plasma-polkit-agent
-systemctl preset --global xwayland-satellite
 
-dnf -y remove xwaylandvideobridge
-dnf -y remove waybar
+
+
 
 mkdir -p "/usr/share/fonts/Maple Mono"
 
@@ -136,14 +197,4 @@ unzip "${MAPLE_TMPDIR}/maple.zip" -d "/usr/share/fonts/Maple Mono"
 curl -L "https://github.com/google/material-design-icons/raw/master/variablefont/MaterialSymbolsRounded%5BFILL%2CGRAD%2Copsz%2Cwght%5D.ttf" -o /usr/share/fonts/MaterialSymbolsRounded.ttf
 curl -L "https://github.com/rsms/inter/raw/refs/tags/v4.1/docs/font-files/InterVariable.ttf" -o /usr/share/fonts/InterVariable.ttf
 curl -L "https://github.com/tonsky/FiraCode/releases/latest/download/FiraCode-Regular.ttf" -o /usr/share/fonts/FiraCode-Regular.ttf
-
-install -d /etc/niri/
-cp -f /etc/skel/.config/niri/config.kdl /etc/niri/config.kdl
-file /etc/niri/config.kdl | grep -F -e "empty" -v
-stat /etc/niri/config.kdl
-
-install -d /etc/ghostty/
-cp -f /etc/skel/.config/ghostty/config /etc/ghostty/config
-file /etc/ghostty/config | grep -F -e "empty" -v
-stat /etc/ghostty/config
 
